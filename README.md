@@ -25,7 +25,7 @@
 <br/>
 
 ## 📖 Table of Contents
-- [Preview & Presentation](#-preview--presentation)
+
 - [Features](#-features)
 - [Installation](#-installation)
 - [Quickstart Guide](#-quickstart-guide)
