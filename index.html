@@ -465,6 +465,91 @@
                 font-size: 3rem;
             }
         }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .nav-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .showcase {
+                padding-bottom: 4rem;
+            }
+
+            .features {
+                padding: 4rem 0;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.5rem;
+            }
+
+            .nav-links a {
+                margin: 0;
+                font-size: 0.95rem;
+            }
+
+            .install-command {
+                padding: 0.5rem 1rem;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .install-command span {
+                margin-right: 0.5rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .editor-terminal-wrapper {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 
