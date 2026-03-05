@@ -1,11 +1,11 @@
-```markdown
 <div align="center">
 
 # 🎙️ stepcast
 
 **The lightweight observability layer for Python scripts and pipelines.**
 **Stream logs, monitor progress, and visualize execution in real-time.**
-```
+
+---
 
 > **Every Python script deserves a voice.**
 
