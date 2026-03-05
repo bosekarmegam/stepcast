@@ -1,0 +1,101 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "stepcast"
+version = "1.0.1"
+description = "Every Python script deserves a voice. Transparent, narrated pipeline execution."
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Suneel Bose K", email = "bosekarmegam@github.com" },
+]
+keywords = ["pipeline", "workflow", "automation", "logging", "cli", "devtools"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Logging",
+    "Topic :: Utilities",
+]
+requires-python = ">=3.10"
+dependencies = []  # Zero core dependencies — pure stdlib only
+
+[project.optional-dependencies]
+dashboard = ["fastapi>=0.100", "uvicorn>=0.23", "websockets>=11.0"]
+rich      = ["rich>=13.0"]
+gemini    = ["google-generativeai>=0.5"]
+colab     = ["google-auth>=2.0", "google-auth-oauthlib>=1.0"]
+dev       = [
+    "pytest>=7",
+    "pytest-cov>=4",
+    "pytest-asyncio>=0.21",
+    "black>=23",
+    "ruff>=0.1",
+    "mypy>=1.5",
+    "pre-commit>=3",
+    "click>=8.0",
+    "httpx>=0.24",     # for TestClient
+]
+all = ["stepcast[dashboard,rich,gemini,colab]"]
+
+[project.urls]
+Homepage = "https://github.com/bosekarmegam/stepcast"
+Repository = "https://github.com/bosekarmegam/stepcast"
+"Bug Tracker" = "https://github.com/bosekarmegam/stepcast/issues"
+Documentation = "https://github.com/bosekarmegam/stepcast/blob/main/docs/index.md"
+
+[project.scripts]
+stepcast = "stepcast.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["stepcast"]
+
+# ─── Black ────────────────────────────────────────────────────────────────────
+[tool.black]
+line-length = 88
+target-version = ["py310", "py311", "py312", "py313"]
+
+# ─── Ruff ────────────────────────────────────────────────────────────────────
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "ANN"]
+ignore = ["ANN101", "ANN102"]
+
+# ─── mypy ─────────────────────────────────────────────────────────────────────
+[tool.mypy]
+strict = true
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = false
+
+# ─── pytest ───────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "integration: real I/O — skipped in CI unless --run-integration flag",
+    "dashboard: requires dashboard optional deps",
+    "smoke: minimal end-to-end, always runs",
+]
+addopts = "-v --tb=short"
+
+# ─── coverage ─────────────────────────────────────────────────────────────────
+[tool.coverage.run]
+source = ["stepcast"]
+omit = ["stepcast/dashboard/*", "stepcast/integrations/*"]
+
+[tool.coverage.report]
+fail_under = 85
+show_missing = true

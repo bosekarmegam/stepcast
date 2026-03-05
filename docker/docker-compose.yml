@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  stepcast:
+    build: ..
+    image: stepcast/stepcast:latest
+    ports:
+      - "4321:4321"
+    volumes:
+      - stepcast_data:/data # run history persisted
+    environment:
+      - STEPCAST_HOST=0.0.0.0 # expose to network
+      - STEPCAST_PORT=4321
+      - STEPCAST_AUTH_KEY=${STEPCAST_AUTH_KEY} # set in .env file
+      - STEPCAST_TITLE=Our Team Pipelines
+    restart: unless-stopped
+
+volumes:
+  stepcast_data:

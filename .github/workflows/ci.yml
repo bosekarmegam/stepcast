@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: "Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        os: [ubuntu-latest, macos-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: pip install -e ".[dev,dashboard,rich]"
+
+      - name: Run linter (ruff)
+        run: ruff check stepcast/ tests/
+
+      - name: Run type checker (mypy)
+        run: mypy stepcast/ --ignore-missing-imports
+        continue-on-error: true  # Non-blocking while project is young
+
+      - name: Run tests
+        run: pytest tests/ -m "not integration" --cov=stepcast --cov-report=xml -v
+        env:
+          PYTHONIOENCODING: utf-8  # Windows Unicode safety
+
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.12'
+        uses: codecov/codecov-action@v4
+        with:
+          file: coverage.xml
+          fail_ci_if_error: false
